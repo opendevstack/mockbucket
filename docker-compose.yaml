@@ -1,0 +1,11 @@
+version: "3"
+services:
+  git:
+    build:
+      context: .
+    image: opendevstack/mockbucket:lastest
+    ports:
+      - "8080:8080"
+    environment:
+      BASIC_USERNAME: "myuser"
+      BASIC_PASSWORD: "mypassword"
