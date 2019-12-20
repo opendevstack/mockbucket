@@ -1,6 +1,6 @@
 version: "3"
 services:
-  git:
+  mockbucket:
     build:
       context: .
     image: opendevstack/mockbucket:lastest
@@ -9,3 +9,5 @@ services:
     environment:
       BASIC_USERNAME: "myuser"
       BASIC_PASSWORD: "mypassword"
+      REPOS: "opendevstack/ods-core.git;opendevstack/ods-quickstarters.git"
+      VERBOSE: "true"

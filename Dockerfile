@@ -21,6 +21,8 @@ RUN apk \
     git-daemon \
     fcgiwrap \
     spawn-fcgi \
+    jq \
+    bash \
     curl
 
 COPY www /www
