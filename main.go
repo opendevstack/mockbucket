@@ -22,10 +22,19 @@ func main() {
 	var wait time.Duration
 
 	router := mux.NewRouter()
-	subRouter := router.PathPrefix("/rest/api/1.0/projects").Subrouter()
-	subRouter.HandleFunc("/", api.CreateProject).Methods("POST")
-	subRouter.HandleFunc("/{projectKey}/repos", api.CreateRepository).Methods("POST")
-	subRouter.HandleFunc("/{projectKey}/repos/{repositorySlug}/webhooks", api.CreateWebhook).Methods("POST")
+
+	data := api.DataMiddleWare{
+		CommitStatus: map[string]api.CommitStatus{},
+	}
+
+	projectSubRouter := router.PathPrefix("/rest/api/1.0/projects").Subrouter()
+	projectSubRouter.HandleFunc("/", api.CreateProject).Methods("POST")
+	projectSubRouter.HandleFunc("/{projectKey}/repos", api.CreateRepository).Methods("POST")
+	projectSubRouter.HandleFunc("/{projectKey}/repos/{repositorySlug}/webhooks", api.CreateWebhook).Methods("POST")
+
+	buildStatusSubRouter := router.PathPrefix("/rest/build-status/1.0/commits").Subrouter()
+	buildStatusSubRouter.HandleFunc("/{commitId}", data.SetCommitStatus).Methods("POST")
+	buildStatusSubRouter.HandleFunc("/{commitId}", data.GetCommitStatus).Methods("GET")
 
 	http.Handle("/", router)
 

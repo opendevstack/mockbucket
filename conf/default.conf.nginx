@@ -10,7 +10,7 @@ server {
     auth_basic            "Restricted";
     auth_basic_user_file  /www/htpasswd;
 
-    location ~ /rest/api/1.0(/.*) {
+    location ~ /rest(/.*) {
         proxy_pass http://localhost:8081;
     }
 
